@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37012.4 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckHome", "CheckHome\CheckHome.csproj", "{DE41B992-F65C-42C2-9625-CE05AA3D0C7A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE41B992-F65C-42C2-9625-CE05AA3D0C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE41B992-F65C-42C2-9625-CE05AA3D0C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE41B992-F65C-42C2-9625-CE05AA3D0C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE41B992-F65C-42C2-9625-CE05AA3D0C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {41B374C5-BB1D-435D-B2D5-695744E701BE}
+	EndGlobalSection
+EndGlobal
