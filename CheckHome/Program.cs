@@ -402,7 +402,6 @@ Task HandlePollingErrorAsync(ITelegramBotClient bot, Exception ex, CancellationT
 }
 
 // Минимальный HTTP-сервер для Render Health Check
-
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 var httpUrl = $"http://0.0.0.0:{port}/";
 
