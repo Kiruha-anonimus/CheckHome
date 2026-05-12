@@ -1,10 +1,9 @@
-﻿using System.Net;
-using System.Text;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Microsoft.AspNetCore.Builder;
 
 string token = Environment.GetEnvironmentVariable("TELEGRAM_BOT_TOKEN")
                ?? "8674827165:AAF9llVMbBQJrkce4_nDFq0FejrIfuqpqyQ";
@@ -401,35 +400,17 @@ Task HandlePollingErrorAsync(ITelegramBotClient bot, Exception ex, CancellationT
     return Task.CompletedTask;
 }
 
-// Минимальный HTTP-сервер для Render Health Check
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-var httpUrl = $"http://0.0.0.0:{port}/";
-
-var httpListener = new HttpListener();
-httpListener.Prefixes.Add(httpUrl);
-httpListener.Start();
-
-Console.WriteLine($"Health check server running on {httpUrl}");
-
+// Минимальный HTTP-сервер для Health Check Render
 _ = Task.Run(async () =>
 {
-    while (true)
-    {
-        try
-        {
-            var context = await httpListener.GetContextAsync();
-            var response = context.Response;
-            string responseString = "OK";
-            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-            response.ContentLength64 = buffer.Length;
-            response.OutputStream.Write(buffer, 0, buffer.Length);
-            response.OutputStream.Close();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Health check error: {ex.Message}");
-        }
-    }
+    var builder = WebApplication.CreateBuilder();
+    var app = builder.Build();
+
+    app.MapGet("/", () => "OK");
+    app.MapGet("/health", () => "OK");
+
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    await app.RunAsync($"http://0.0.0.0:{port}");
 });
 
 await Task.Delay(-1);
