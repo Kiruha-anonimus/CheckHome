@@ -1,4 +1,6 @@
-﻿using Telegram.Bot;
+﻿using System.Net;
+using System.Text;
+using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -398,5 +400,37 @@ Task HandlePollingErrorAsync(ITelegramBotClient bot, Exception ex, CancellationT
     Console.WriteLine($"Ошибка: {ex.Message}");
     return Task.CompletedTask;
 }
+
+// Минимальный HTTP-сервер для Render Health Check
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var httpUrl = $"http://0.0.0.0:{port}";
+
+var httpListener = new HttpListener();
+httpListener.Prefixes.Add(httpUrl);
+httpListener.Start();
+
+Console.WriteLine($"Health check server running on {httpUrl}");
+
+_ = Task.Run(async () =>
+{
+    while (true)
+    {
+        try
+        {
+            var context = await httpListener.GetContextAsync();
+            var response = context.Response;
+            string responseString = "OK";
+            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+            response.ContentLength64 = buffer.Length;
+            response.OutputStream.Write(buffer, 0, buffer.Length);
+            response.OutputStream.Close();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Health check error: {ex.Message}");
+        }
+    }
+});
 
 await Task.Delay(-1);
